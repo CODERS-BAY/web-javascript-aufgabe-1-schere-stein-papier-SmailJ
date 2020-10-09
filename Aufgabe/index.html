@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style/style.css">
+    <title>RSP - Game</title>
+</head>
+<body>
+    <header>
+        <h1>Rock, Scissors & Paper Game</h1>
+    </header>
+    <div class="container">
+        <p>Your Score: <span id="scorePlayer">0</span></p>
+        <p>AI Score: <span id="scoreAI">0</span></p>
+    </div>
+    <article>
+        <section>
+            <h2 id="player1">Player</h2>
+            <h2 id="ai1">AI</h2>
+            <img src="img/rock.jpg" alt="Rock" id="rock">
+            <h1>ROCK</h1>
+        </section>
+        <section id="scissors">
+            <h2 id="player2">Player</h2>
+            <h2 id="ai2">AI</h2>
+            <img src="img/scissors.jpg" alt="scissors">
+            <h1>SCISSORS</h1>
+        </section>
+        <section id="paper">
+            <h2 id="player3">Player</h2>
+            <h2 id="ai3">AI</h2>
+            <img src="img/paper.jpg" alt="paper">
+            <h1>PAPER</h1>
+        </section>
+    </article>
+    <article>
+        <section>
+            <p></p>
+        </section>
+    </article>
+    <div class="container">
+        <h1 id="play">PLAY</h1>
+    </div>
+    <div class="container">
+        <p>Round: <span id="round">0</span></p>
+        <p>Result: <span id="result">0</span></p>
+    </div>
+    <div class="container">
+        <p>Your Wins: <span id="playerwins">0</span></p>
+        <p>AI Wins: <span id="aiwins">0</span></p>
+    </div>
+    <div class="container">
+        <p>Your symbol: <span id="selectedPlayer">0</span></p>
+        <p>AI symbol: <span id="selectedAI">0</span></p>
+    </div>
+    <script>
+        var symbolComputer;
+        var symbolSpieler;
+        var anzahlRunden;
+        var actualRound = 0;
+        var gewinneComputer = 0;
+        var gewinneSpieler = 0;
+        var gewinnBedingung = 3;
+        var gewinnDynamic;
+
+        //Rounds
+        var result = document.getElementById("result");
+        var round = document.getElementById("round");
+        var round1 = 0;
+
+        //Debugger
+        var bugger1;
+        var bugger = document.getElementById("bugger");
+
+        //Selected Symbols
+        var selectedPlayer = document.getElementById("selectedPlayer");
+        var selectedAI = document.getElementById("selectedAI");
+        
+        //Wins
+        var playerwins = document.getElementById("playerwins");
+        var aiwins = document.getElementById("aiwins");
+        var playerwins1 = 0;
+        var aiwins1 = 0;
+
+        //Score
+        var scorePlayer = document.getElementById("scorePlayer");
+        var scoreAI = document.getElementById("scoreAI");
+        var scorePlayer1 = 0;
+        var scoreAI1 = 0;
+
+        //Symbols
+        var next = document.getElementById("play");
+        var rock = document.getElementById("rock");
+        var scissors = document.getElementById("scissors");
+        var paper = document.getElementById("paper");
+
+        //Symboltext
+        var player1 = document.getElementById("player1");
+        var player2 = document.getElementById("player2");
+        var player3 = document.getElementById("player3");
+        var ai1 = document.getElementById("ai1");
+        var ai2 = document.getElementById("ai2");
+        var ai3 = document.getElementById("ai3");
+
+        //Strings
+
+        //Functions Auswahl
+        function choose1 () {
+            symbolSpieler = rock;
+            selectedPlayer.innerHTML = "Rock";
+            player1.style.display = "block";
+            player2.style.display = "none";
+            player3.style.display = "none";
+        }
+        function choose2 () {
+            symbolSpieler = scissors;
+            selectedPlayer.innerHTML = "Scissors";
+            player1.style.display = "none";
+            player2.style.display = "block";
+            player3.style.display = "none";
+        }
+        function choose3 () {
+            symbolSpieler = paper;
+            selectedPlayer.innerHTML = "Paper";
+            player1.style.display = "none";
+            player2.style.display = "none";
+            player3.style.display = "block";
+        }
+
+        //Function for Play
+        function nextplay () {
+            bugger1 = Math.floor(Math.random() * 3);
+            selectedAI.innerHTML = bugger1;
+            if (bugger1 == 0) {
+                symbolComputer = rock;
+                console.log(bugger1);
+                ai1.style.display = "block";
+                ai2.style.display = "none";
+                ai3.style.display = "none";
+            } else if (bugger1 == 1) {
+                symbolComputer = scissors;
+                console.log(bugger1);
+                ai1.style.display = "none";
+                ai2.style.display = "block";
+                ai3.style.display = "none";
+            } else if (bugger1 == 2) {
+                symbolComputer = paper;
+                console.log(bugger1);
+                ai1.style.display = "none";
+                ai2.style.display = "none";
+                ai3.style.display = "block";
+            }
+
+            if (symbolComputer == rock) {
+                selectedAI.innerHTML = "Rock";
+            } else if (symbolComputer == scissors) {
+                selectedAI.innerHTML = "Scissors";
+            } else if (symbolComputer == paper) {
+                selectedAI.innerHTML = "Paper";
+            }
+
+            if (symbolSpieler == rock && symbolComputer == rock) {
+                result.innerHTML = "Tie";
+            } else if (symbolSpieler == rock && symbolComputer == scissors) {
+                result.innerHTML = "Win";
+                round1++;
+                playerwins1++;
+            } else if (symbolSpieler == rock && symbolComputer == paper) {
+                result.innerHTML = "Lost";
+                round1++;
+                aiwins1++;
+            } else if (symbolSpieler == scissors && symbolComputer == rock) {
+                result.innerHTML = "Lost";
+                round1++;
+                aiwins1++;
+            } else if (symbolSpieler == scissors && symbolComputer == scissors) {
+                result.innerHTML = "Tie";
+            } else if (symbolSpieler == scissors && symbolComputer == paper) {
+                result.innerHTML = "Win";
+                round1++;
+                playerwins1++;
+            } else if (symbolSpieler == paper && symbolComputer == rock) {
+                result.innerHTML = "Win";
+                round1++;
+                playerwins1++;
+            } else if (symbolSpieler == paper && symbolComputer == scissors) {
+                result.innerHTML = "Lost";
+                round1++;
+                aiwins1++;
+            } else if (symbolSpieler == paper && symbolComputer == paper) {
+                result.innerHTML = "Tie";
+            }
+
+            if (playerwins1 == 3) {
+                scorePlayer1++;
+                playerwins1 = 0;
+                aiwins1 = 0;
+                round1 = 0;
+            } else if (aiwins1 == 3) {
+                scoreAI1++;
+                playerwins1 = 0;
+                aiwins1 = 0;
+                round1 = 0;
+            }
+
+            scorePlayer.innerHTML = scorePlayer1;
+            scoreAI.innerHTML = scoreAI1;
+            round.innerHTML = round1;
+            playerwins.innerHTML = playerwins1;
+            aiwins.innerHTML = aiwins1;
+
+            return bugger1;
+        }
+
+        //On Click happens function xyz
+        rock.addEventListener("click", choose1, true);
+        scissors.addEventListener("click", choose2, true);
+        paper.addEventListener("click", choose3, true);
+        play.addEventListener("click", nextplay, true);
+
+    </script>
+</body>
+</html>
